@@ -1,17 +1,24 @@
 package Array;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SumSubArray {
     public static int subarraySum(int[] nums, int k) {
+        int sum = 0;
         int count = 0;
-        if((nums.length == 1 && nums[0] == k) || nums[0] == k || nums[nums.length-1] == k) count++;
-        for (int i = 0; i < nums.length-1; i++) {
-            if (nums[i]+nums[i+1] == k){
-                count++;
-            };
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        for (int num : nums) {
+            sum += num;
+            if (map.containsKey(sum - k)) {
+                count += map.get(sum - k);
+            }
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return count;
     }
     public static void main(String[] args) {
-        System.out.println(subarraySum(new int[]{-1,-1,1},1));
+        System.out.println(subarraySum(new int[]{1,2,3,4,5,6},6));
     }
 }
